@@ -1,8 +1,7 @@
-
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { Heart, Droplets, Shield, Kidney, Ribbon } from "lucide-react";
+import { Heart, Droplets, Shield, Activity, Ribbon } from "lucide-react";
 
 const Index = () => {
   const predictionModules = [
@@ -34,7 +33,7 @@ const Index = () => {
       id: "kidney",
       title: "Kidney Disease",
       description: "Monitor kidney function and chronic disease risk",
-      icon: Kidney,
+      icon: Activity,
       color: "bg-green-500",
       path: "/kidney-disease"
     },

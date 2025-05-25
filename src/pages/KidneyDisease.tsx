@@ -1,6 +1,6 @@
 
 import { Link } from "react-router-dom";
-import { ArrowLeft, Kidney } from "lucide-react";
+import { ArrowLeft, Activity } from "lucide-react";
 import PredictionForm from "@/components/PredictionForm";
 
 const KidneyDisease = () => {
@@ -59,7 +59,7 @@ const KidneyDisease = () => {
             </Link>
             <div className="flex items-center space-x-3 ml-8">
               <div className="w-10 h-10 bg-green-500 rounded-lg flex items-center justify-center">
-                <Kidney className="h-6 w-6 text-white" />
+                <Activity className="h-6 w-6 text-white" />
               </div>
               <div>
                 <h1 className="text-2xl font-bold text-gray-900">Kidney Disease Prediction</h1>
