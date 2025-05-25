@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -95,7 +96,7 @@ const PredictionForm: React.FC<PredictionFormProps> = ({ title, description, fie
             user_id: user.id,
             disease_type: title.split(' ')[0].toLowerCase(),
             input_data: formData,
-            prediction_result: mockResult
+            prediction_result: mockResult as any
           });
         } catch (error) {
           console.error('Error saving prediction:', error);
