@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -7,6 +6,8 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { CheckCircle, AlertCircle, Info } from "lucide-react";
+import { useAuth } from "@/contexts/AuthContext";
+import { supabase } from "@/integrations/supabase/client";
 
 interface FormField {
   name: string;
@@ -37,6 +38,7 @@ const PredictionForm: React.FC<PredictionFormProps> = ({ title, description, fie
   const [isLoading, setIsLoading] = useState(false);
   const [result, setResult] = useState<PredictionResult | null>(null);
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const { user } = useAuth();
 
   const handleInputChange = (name: string, value: any) => {
     setFormData(prev => ({ ...prev, [name]: value }));
@@ -74,7 +76,7 @@ const PredictionForm: React.FC<PredictionFormProps> = ({ title, description, fie
     setIsLoading(true);
     
     // Simulate API call with mock prediction
-    setTimeout(() => {
+    setTimeout(async () => {
       const mockResult: PredictionResult = {
         risk: Math.random() > 0.7 ? 'high' : Math.random() > 0.4 ? 'moderate' : 'low',
         probability: Math.random() * 100,
@@ -85,6 +87,20 @@ const PredictionForm: React.FC<PredictionFormProps> = ({ title, description, fie
           "Consult with healthcare professionals for personalized advice"
         ]
       };
+      
+      // Save prediction to database
+      if (user) {
+        try {
+          await supabase.from('predictions').insert({
+            user_id: user.id,
+            disease_type: title.split(' ')[0].toLowerCase(),
+            input_data: formData,
+            prediction_result: mockResult
+          });
+        } catch (error) {
+          console.error('Error saving prediction:', error);
+        }
+      }
       
       setResult(mockResult);
       setIsLoading(false);

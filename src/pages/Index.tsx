@@ -1,9 +1,13 @@
+
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { Heart, Droplets, Shield, Activity, Ribbon } from "lucide-react";
+import { Heart, Droplets, Shield, Activity, Ribbon, LogOut, User } from "lucide-react";
+import { useAuth } from "@/contexts/AuthContext";
 
 const Index = () => {
+  const { user, signOut } = useAuth();
+
   const predictionModules = [
     {
       id: "heart",
@@ -47,6 +51,10 @@ const Index = () => {
     }
   ];
 
+  const handleSignOut = async () => {
+    await signOut();
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
       {/* Header */}
@@ -62,11 +70,21 @@ const Index = () => {
                 <p className="text-sm text-gray-600">Health Monitoring System</p>
               </div>
             </div>
-            <nav className="hidden md:flex space-x-8">
-              <Link to="/" className="text-gray-700 hover:text-blue-600 font-medium">Home</Link>
-              <Link to="/about" className="text-gray-700 hover:text-blue-600 font-medium">About</Link>
-              <Link to="/resources" className="text-gray-700 hover:text-blue-600 font-medium">Resources</Link>
-            </nav>
+            <div className="flex items-center space-x-4">
+              <div className="flex items-center space-x-2 text-sm text-gray-600">
+                <User className="h-4 w-4" />
+                <span>{user?.email}</span>
+              </div>
+              <Button 
+                onClick={handleSignOut}
+                variant="outline"
+                size="sm"
+                className="flex items-center space-x-2"
+              >
+                <LogOut className="h-4 w-4" />
+                <span>Sign Out</span>
+              </Button>
+            </div>
           </div>
         </div>
       </header>
@@ -81,13 +99,10 @@ const Index = () => {
           <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
             Get personalized health insights and disease risk predictions using advanced machine learning algorithms. Monitor your health proactively with our comprehensive screening tools.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3">
-              Start Health Assessment
-            </Button>
-            <Button variant="outline" size="lg" className="px-8 py-3">
-              Learn More
-            </Button>
+          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-8">
+            <p className="text-blue-800">
+              Welcome back! Select a health assessment below to get started with your personalized risk analysis.
+            </p>
           </div>
         </div>
       </section>
